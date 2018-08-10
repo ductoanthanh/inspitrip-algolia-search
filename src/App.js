@@ -55,7 +55,7 @@ const Content = () => (
     </div>
     <Hits hitComponent={Experience} />
     <div className="pagination">
-        <Pagination showLast />
+        <Pagination showLast paddings={4} />
     </div>
   </div>
 )
