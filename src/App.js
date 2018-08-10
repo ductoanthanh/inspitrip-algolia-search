@@ -3,6 +3,7 @@ import {
   InstantSearch,
   SearchBox,
   Hits,
+  HitsPerPage,
   Highlight,
   Stats,
   SortBy,
@@ -53,6 +54,13 @@ const Content = () => (
       />
       <Stats />
     </div>
+    <HitsPerPage
+      defaultRefinement={5}
+      items={[
+        { value: 5, label: 'Show 5 hits' },
+        { value: 10, label: 'Show 10 hits' },
+      ]}
+    />
     <Hits hitComponent={Experience} />
     <div className="pagination">
         <Pagination showLast paddings={4} />
