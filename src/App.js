@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { 
+import {
   InstantSearch,
   SearchBox,
   Hits,
@@ -15,7 +15,7 @@ const Experience = ({hit}) => (
   <div className="">
     <div className="hit-image">
       <img src={hit.background_photo} />
-    </div> 
+    </div>
     <div className="experience-text">
       <div className="experience-name">
         <Highlight attribute="title" hit={hit} className="experience-name" />
@@ -23,7 +23,7 @@ const Experience = ({hit}) => (
       <div className="experience-location">
         {hit.place.full_name}
       </div>
-    </div> 
+    </div>
     <div className="experience-footer">
       <div className="experience-price">
         ${hit.price}
@@ -55,7 +55,7 @@ const Content = () => (
       <Stats />
     </div>
     <HitsPerPage
-      defaultRefinement={5}
+      defaultRefinement={10}
       items={[
         { value: 5, label: 'Show 5 hits' },
         { value: 10, label: 'Show 10 hits' },
@@ -73,13 +73,13 @@ class App extends Component {
     return (
       <div className="App">
        <InstantSearch
-          apiKey="d37fb192eb11fac55adc80b9402a247d"
-          appId="H2X59IQ8XE"
+          apiKey="897419e2352332186eb1c5b1d25d7d07"
+          appId="TYH3T0DOFV"
           indexName="inspitrip"
        >
           <header className="header center">
-            <img src="https://inspitrip.imgix.net/static/assets/images/svg-icons/logo-pink.svg" /> 
-            <SearchBox translations={{placeholder:'Search for Experience'}} />
+            <img src="https://inspitrip.imgix.net/static/assets/images/svg-icons/logo-pink.svg" />
+            <SearchBox translations={{ placeholder:'Search for Experience' }} />
           </header>
 
           <main>
