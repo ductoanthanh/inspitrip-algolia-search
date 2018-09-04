@@ -65,27 +65,6 @@ const theme = {
   }
 };
 
-const Results = ({hit}) => (
-  <div className="">
-    <div className="hit-image">
-      <img src={hit.background_photo} />
-    </div>
-    <div className="experience-text">
-      <div className="experience-name">
-        <Highlight attribute="title" hit={hit} className="experience-name" />
-      </div>
-      <div className="experience-location">
-        {hit.place.full_name}
-      </div>
-    </div>
-    <div className="experience-footer">
-      <div className="experience-price">
-        ${hit.price}
-      </div>
-    </div>
-  </div>
-)
-
 const App = () => (
   // <InstantSearch
   //   appId="latency"
@@ -99,7 +78,7 @@ const App = () => (
      indexName="inspitrip"
   >
     <AutoComplete />
-    <Configure hitsPerPage={5} />
+    <Configure hitsPerPage={3} />
   </InstantSearch>
 );
 
@@ -129,13 +108,15 @@ class Example extends Component {
   };
 
   getSuggestionValue(hit) {
-    return hit.name;
+    return hit.title;
   }
 
   renderSuggestion(hit) {
     // return <Highlight attribute="name" hit={hit} tagName="mark" />;
     return (
       <div>
+        <a href="http://localhost:3000/">Link</a>
+        <p>${hit.price}</p>
         <Highlight attribute="title" hit={hit} className="experience-name" />
       </div>
     )
