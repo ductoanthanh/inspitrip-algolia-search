@@ -8,8 +8,13 @@ import {
   Stats,
   SortBy,
   Pagination,
-  RefinementList
+  RefinementList,
+  Configure,
+  Index,
+  connectAutoComplete,
+  connectStateResults
 } from 'react-instantsearch-dom';
+import Autosuggest from 'react-autosuggest';
 
 const Experience = ({hit}) => (
   <div className="">
