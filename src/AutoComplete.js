@@ -14,17 +14,17 @@ const theme = {
     position: 'relative'
   },
   input: {
-    width: 240,
-    height: 30,
+    width: '100%',
+    height: 51,
     padding: '10px 20px',
     fontFamily: 'Helvetica, sans-serif',
     fontWeight: 300,
     fontSize: 16,
-    border: '1px solid #aaa',
+    border: '1px solid #c4c8d8',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
     borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
+    borderBottomRightRadius: 4
   },
   inputFocused: {
     outline: 'none'
@@ -38,9 +38,6 @@ const theme = {
   },
   suggestionsContainerOpen: {
     display: 'block',
-    position: 'absolute',
-    top: 51,
-    width: 280,
     border: '1px solid #aaa',
     backgroundColor: '#fff',
     fontFamily: 'Helvetica, sans-serif',
@@ -152,7 +149,7 @@ class Example extends Component {
         getSectionSuggestions={this.getSectionSuggestions}
         theme={theme}
         // just for development
-        alwaysRenderSuggestions={true}
+        alwaysRenderSuggestions={false}
       />
     );
   }
