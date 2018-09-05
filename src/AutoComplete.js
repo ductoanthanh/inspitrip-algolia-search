@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   InstantSearch,
   Configure,
-  Index,
   Highlight,
   Hits
 } from 'react-instantsearch/dom';

@@ -16,6 +16,61 @@ import {
 } from 'react-instantsearch-dom';
 import Autosuggest from 'react-autosuggest';
 
+const theme = {
+  container: {
+    position: 'relative'
+  },
+  input: {
+    width: 240,
+    height: 30,
+    padding: '10px 20px',
+    fontFamily: 'Helvetica, sans-serif',
+    fontWeight: 300,
+    fontSize: 16,
+    border: '1px solid #aaa',
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+  },
+  inputFocused: {
+    outline: 'none'
+  },
+  inputOpen: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
+  },
+  suggestionsContainer: {
+    display: 'none'
+  },
+  suggestionsContainerOpen: {
+    display: 'block',
+    position: 'absolute',
+    top: 51,
+    width: 280,
+    border: '1px solid #aaa',
+    backgroundColor: '#fff',
+    fontFamily: 'Helvetica, sans-serif',
+    fontWeight: 300,
+    fontSize: 16,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    zIndex: 2
+  },
+  suggestionsList: {
+    margin: 0,
+    padding: 0,
+    listStyleType: 'none',
+  },
+  suggestion: {
+    cursor: 'pointer',
+    padding: '10px 20px'
+  },
+  suggestionHighlighted: {
+    backgroundColor: '#ddd'
+  }
+};
+
 const Experience = ({hit}) => (
   <div className="">
     <div className="hit-image">
@@ -73,6 +128,85 @@ const Content = () => (
   </div>
 )
 
+class Example extends Component {
+  static propTypes = {
+    // hits: PropTypes.arrayOf(PropTypes.object).isRequired,
+    // currentRefinement: PropTypes.string.isRequired,
+    // refine: PropTypes.func.isRequired,
+  };
+
+  state = {
+    value: this.props.currentRefinement,
+  };
+
+  onChange = (event, { newValue }) => {
+    this.setState({
+      value: newValue,
+    });
+  };
+
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.props.refine(value);
+  };
+
+  onSuggestionsClearRequested = () => {
+    this.props.refine();
+  };
+
+  getSuggestionValue(hit) {
+    return hit.title;
+  }
+
+  renderSuggestion(hit) {
+    // return <Highlight attribute="name" hit={hit} tagName="mark" />;
+    return (
+      <div>
+        <a href="http://localhost:3000/">Link</a>
+        <p>${hit.price}</p>
+        <Highlight attribute="title" hit={hit} className="experience-name" />
+      </div>
+    )
+  }
+
+  renderSectionTitle(section) {
+    return section.index;
+  }
+
+  getSectionSuggestions(section) {
+    return section.hits;
+  }
+
+  render() {
+    const { hits } = this.props;
+    const { value } = this.state;
+
+    const inputProps = {
+      placeholder: 'Search an experience...',
+      onChange: this.onChange,
+      value,
+    };
+
+    return (
+      <Autosuggest
+        suggestions={hits}
+        multiSection={false}
+        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+        getSuggestionValue={this.getSuggestionValue}
+        renderSuggestion={this.renderSuggestion}
+        inputProps={inputProps}
+        renderSectionTitle={this.renderSectionTitle}
+        getSectionSuggestions={this.getSectionSuggestions}
+        theme={theme}
+        // just for development
+        alwaysRenderSuggestions={false}
+      />
+    );
+  }
+}
+
+const AutoComplete = connectAutoComplete(Example);
+
 class App extends Component {
   render() {
     return (
@@ -84,7 +218,9 @@ class App extends Component {
        >
           <header className="header center">
             <img src="https://inspitrip.imgix.net/static/assets/images/svg-icons/logo-pink.svg" />
-            <SearchBox translations={{ placeholder:'Search for Experience' }} />
+            {/* <SearchBox translations={{ placeholder:'Search for Experience' }} /> */}
+            <AutoComplete />
+            <Configure hitsPerPage={3} />
           </header>
 
           <main>
