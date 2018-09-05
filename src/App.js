@@ -85,17 +85,17 @@ class App extends Component {
        >
           <header className="header center">
             <img src="https://inspitrip.imgix.net/static/assets/images/svg-icons/logo-pink.svg" />
-            <SearchBox translations={{ placeholder:'Search for Experience' }} />
             <div className="auto-complete">
+              <h1>Auto Complete Search</h1>
               <AutoComplete />
             </div>
-
+            <SearchBox translations={{ placeholder:'Search for Experience' }} />
           </header>
 
           <main>
-            <div class="row">
-              <div class="col-md-3"><Sidebar /></div>
-              <div class="col-md-9"><Content /></div>
+            <div className="row">
+              <div className="col-md-3"><Sidebar /></div>
+              <div className="col-md-9"><Content /></div>
             </div>
           </main>
        </InstantSearch>

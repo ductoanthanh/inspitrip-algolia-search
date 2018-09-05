@@ -8,6 +8,7 @@ import {
 } from 'react-instantsearch/dom';
 import { connectAutoComplete } from 'react-instantsearch/connectors';
 import Autosuggest from 'react-autosuggest';
+import { Link } from 'react-router-dom'
 
 const theme = {
   container: {
@@ -110,11 +111,10 @@ class Example extends Component {
   renderSuggestion(hit) {
     // return <Highlight attribute="name" hit={hit} tagName="mark" />;
     return (
-      <div>
-        <a href="http://localhost:3000/">Link</a>
-        <p>${hit.price}</p>
+      <Link to="/search">
+        <p style={{float: 'right'}}>${hit.price}</p>
         <Highlight attribute="title" hit={hit} className="experience-name" />
-      </div>
+      </Link>
     )
   }
 
@@ -149,7 +149,7 @@ class Example extends Component {
         getSectionSuggestions={this.getSectionSuggestions}
         theme={theme}
         // just for development
-        alwaysRenderSuggestions={false}
+        alwaysRenderSuggestions={true}
       />
     );
   }
