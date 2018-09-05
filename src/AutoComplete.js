@@ -149,7 +149,7 @@ class Example extends Component {
         getSectionSuggestions={this.getSectionSuggestions}
         theme={theme}
         // just for development
-        alwaysRenderSuggestions={true}
+        alwaysRenderSuggestions={false}
       />
     );
   }
