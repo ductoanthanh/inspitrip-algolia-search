@@ -113,7 +113,7 @@ class Example extends Component {
   renderSuggestion(hit) {
     // return <Highlight attribute="name" hit={hit} tagName="mark" />;
     return (
-      <Link to="/search">
+      <Link to={`/experience/${hit.slug}-${hit.id}`}>
         <p style={{float: 'right'}}>${hit.price}</p>
         <Highlight attribute="title" hit={hit} className="experience-name" />
       </Link>
