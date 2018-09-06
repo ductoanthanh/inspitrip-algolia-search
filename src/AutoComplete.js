@@ -64,12 +64,6 @@ const theme = {
 };
 
 const App = () => (
-  // <InstantSearch
-  //   appId="latency"
-  //   apiKey="6be0576ff61c053d5f9a3225e2a90f76"
-  //   indexName="ikea"
-  // >
-
   <InstantSearch
      apiKey="897419e2352332186eb1c5b1d25d7d07"
      appId="TYH3T0DOFV"
@@ -113,7 +107,7 @@ class Example extends Component {
   renderSuggestion(hit) {
     // return <Highlight attribute="name" hit={hit} tagName="mark" />;
     return (
-      <Link to={`/experience/${hit.slug}-${hit.id}`}>
+      <Link to='/'>
         <p style={{float: 'right'}}>${hit.price}</p>
         <Highlight attribute="title" hit={hit} className="experience-name" />
       </Link>
