@@ -92,6 +92,13 @@ class Example extends Component {
     });
   };
 
+  onKeyPress = (event) => {
+    if(event.key === 'Enter') {
+      const hits = this.props.hits;
+      event.target.value = hits[0].hits[0].title
+    }
+  }
+
   onSuggestionsFetchRequested = ({ value }) => {
     this.props.refine(value);
   };
@@ -134,6 +141,7 @@ class Example extends Component {
     const inputProps = {
       placeholder: 'Search an experience...',
       onChange: this.onChange,
+      onKeyPress: this.onKeyPress,
       value,
     };
 
