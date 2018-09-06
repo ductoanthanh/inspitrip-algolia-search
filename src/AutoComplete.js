@@ -108,14 +108,19 @@ class Example extends Component {
     // return <Highlight attribute="name" hit={hit} tagName="mark" />;
     return (
       <Link to='/'>
-        <p style={{float: 'right'}}>${hit.price}</p>
         <Highlight attribute="title" hit={hit} className="experience-name" />
       </Link>
     )
   }
 
   renderSectionTitle(section) {
-    return section.index;
+    if (section.index === 'autocomplete') {
+      return ''
+    } else if (section.index === 'inspitrip') {
+      return 'Top Hits'
+    } else {
+      return section.index;
+    }
   }
 
   getSectionSuggestions(section) {
