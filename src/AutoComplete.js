@@ -72,7 +72,7 @@ const App = () => (
   <InstantSearch
      apiKey="897419e2352332186eb1c5b1d25d7d07"
      appId="TYH3T0DOFV"
-     indexName="inspitrip"
+     indexName="autocomplete"
   >
     <AutoComplete />
     <Configure hitsPerPage={3} />
