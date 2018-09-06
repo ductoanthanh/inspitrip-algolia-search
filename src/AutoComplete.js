@@ -4,6 +4,7 @@ import {
   InstantSearch,
   Configure,
   Highlight,
+  Index,
   Hits
 } from 'react-instantsearch/dom';
 import { connectAutoComplete } from 'react-instantsearch/connectors';
@@ -76,6 +77,7 @@ const App = () => (
   >
     <AutoComplete />
     <Configure hitsPerPage={3} />
+    <Index indexName="inspitrip" />
   </InstantSearch>
 );
 
@@ -139,7 +141,7 @@ class Example extends Component {
     return (
       <Autosuggest
         suggestions={hits}
-        multiSection={false}
+        multiSection={true}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={this.getSuggestionValue}
