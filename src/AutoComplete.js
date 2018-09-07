@@ -109,6 +109,9 @@ class Example extends Component {
   };
 
   getSuggestionValue(hit) {
+    if (hit.sortBy === 'suggestion') {
+      return hit.city;
+    }
     return hit.title;
   }
 
