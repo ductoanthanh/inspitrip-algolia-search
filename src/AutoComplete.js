@@ -95,8 +95,8 @@ class Example extends Component {
   onKeyPress = (event) => {
     if(event.key === 'Enter') {
       const hits = this.props.hits;
-      event.target.value = hits[0].hits[0].title;
-      window.location.assign(`https://inspitrip.com/experiences/${hits[0].hits[0].slug}-${hits[0].hits[0].id}`)
+      event.target.value = hits[0].hits[0].city;
+      window.location.assign(`https://inspitrip.com/search?text=${hits[0].hits[0].city}`)
     }
   }
 
