@@ -8,6 +8,7 @@ html {
 }
 main {
     min-height: 360px;
+    margin-top: 30px;
 }
 
 .clear:after {
@@ -82,7 +83,7 @@ header img {
 }
 
 .experience-footer .experience-price {
-    font-weight: bold; 
+    font-weight: bold;
 }
 
 /* PAGINATION */
@@ -245,4 +246,12 @@ h5 {
     border: 2px solid #ddd;
     border-radius: 4px;
     background: #fff;
+}
+
+.auto-complete {
+    padding: 50px 10% 50px
+}
+
+#react-autowhatever-1 ul {
+  text-align: left;
 }
