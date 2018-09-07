@@ -113,6 +113,7 @@ class Example extends Component {
   }
 
   renderSuggestion(hit) {
+    console.log(hit);
     return (
       <Link to='/'>
         {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
