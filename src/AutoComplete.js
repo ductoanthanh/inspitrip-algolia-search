@@ -67,7 +67,7 @@ const App = () => (
   <InstantSearch
      apiKey="897419e2352332186eb1c5b1d25d7d07"
      appId="TYH3T0DOFV"
-     indexName="autocomplete"
+     indexName="suggestions"
   >
     <AutoComplete />
     <Configure hitsPerPage={3} />
@@ -114,16 +114,27 @@ class Example extends Component {
 
   renderSuggestion(hit) {
     console.log(hit);
-    return (
-      <Link to='/'>
-        {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
-        <p className="experience-name">{hit.title}</p>
-      </Link>
-    )
+    if (hit.sortBy === 'suggestion') {
+      return (
+        <Link to={`/`}>
+          {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
+          <p className="experience-name">{hit.city}</p>
+        </Link>
+      )
+    }
+    else {
+      return (
+        <Link to='/'>
+          {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
+          <p className="experience-name">{hit.title}</p>
+        </Link>
+      )
+    }
+
   }
 
   renderSectionTitle(section) {
-    if (section.index === 'autocomplete') {
+    if (section.index === 'autocomplete' || section.index === 'suggestions') {
       return ''
     } else if (section.index === 'inspitrip') {
       return 'Top Hits'
