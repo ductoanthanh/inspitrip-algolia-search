@@ -89,15 +89,15 @@ class App extends Component {
               <h1>Auto Complete Search</h1>
               <AutoComplete />
             </div>
-            <SearchBox translations={{ placeholder:'Search for Experience' }} />
+            {/* <SearchBox translations={{ placeholder:'Search for Experience' }} /> */}
           </header>
 
-          <main>
+          {/* <main>
             <div className="row">
               <div className="col-md-3"><Sidebar /></div>
               <div className="col-md-9"><Content /></div>
             </div>
-          </main>
+          </main> */}
        </InstantSearch>
       </div>
     );

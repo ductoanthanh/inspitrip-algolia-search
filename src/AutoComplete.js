@@ -95,7 +95,8 @@ class Example extends Component {
   onKeyPress = (event) => {
     if(event.key === 'Enter') {
       const hits = this.props.hits;
-      event.target.value = hits[0].hits[0].title
+      event.target.value = hits[0].hits[0].title;
+      window.location.assign(`https://inspitrip.com/experiences/${hits[0].hits[0].slug}-${hits[0].hits[0].id}`)
     }
   }
 
@@ -112,10 +113,10 @@ class Example extends Component {
   }
 
   renderSuggestion(hit) {
-    // return <Highlight attribute="name" hit={hit} tagName="mark" />;
     return (
       <Link to='/'>
-        <Highlight attribute="title" hit={hit} className="experience-name" />
+        {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
+        <p className="experience-name">{hit.title}</p>
       </Link>
     )
   }
@@ -158,7 +159,7 @@ class Example extends Component {
         getSectionSuggestions={this.getSectionSuggestions}
         theme={theme}
         // just for development
-        alwaysRenderSuggestions={true}
+        alwaysRenderSuggestions={false}
       />
     );
   }
