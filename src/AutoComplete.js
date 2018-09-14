@@ -74,11 +74,11 @@ const App = () => (
   <InstantSearch
      apiKey="897419e2352332186eb1c5b1d25d7d07"
      appId="TYH3T0DOFV"
-     indexName="suggestions"
+     indexName="inspitrip"
   >
     <AutoComplete />
-    <Configure hitsPerPage={5} />
-    <Index indexName="inspitrip" />
+    <Configure hitsPerPage={10} />
+    <Index indexName="suggestions" />
   </InstantSearch>
 );
 
@@ -99,12 +99,6 @@ class Example extends Component {
     });
   };
 
-  onKeyPress = (event) => {
-    if(event.key === 'Enter') {
-      const hits = this.props.hits;
-    }
-  }
-
   onSuggestionsFetchRequested = ({ value }) => {
     this.props.refine(value);
   };
@@ -117,7 +111,7 @@ class Example extends Component {
     if (hit.sortBy === 'suggestion') {
       return hit.city;
     }
-    return hit.title;
+    return null;
   }
 
   renderSuggestion(hit) {
@@ -130,11 +124,7 @@ class Example extends Component {
       )
     }
     else {
-      return (
-        <Link to='/search'>
-          <p className="experience-name">{hit.title}</p>
-        </Link>
-      )
+      return <p>12</p>;
     }
 
   }
@@ -142,10 +132,8 @@ class Example extends Component {
   renderSectionTitle(section) {
     if (section.index === 'autocomplete' || section.index === 'suggestions') {
       return ''
-    } else if (section.index === 'inspitrip') {
-      return 'Top Hits'
     } else {
-      return section.index;
+      return null;
     }
   }
 
@@ -160,7 +148,6 @@ class Example extends Component {
     const inputProps = {
       placeholder: 'Search an experience...',
       onChange: this.onChange,
-      onKeyPress: this.onKeyPress,
       value,
     };
 
@@ -191,7 +178,25 @@ class Example extends Component {
         <div className="row">
           <div className="col-md-3"><Sidebar /></div>
           <div className="col-md-9">
-            {hits.length > 1 && hits[1].hits.map((hit, index) => {
+            <div className="info">
+              <SortBy
+                defaultRefinement="inspitrip"
+                items={[
+                  {value:'inspitrip', label:'Most Relevant'},
+                  {value:'inspitrip_price_asc', label:'Lowest Price'},
+                  {value:'inspitrip_price_dsc', label:'Highest Price'}
+                ]}
+              />
+              <Stats />
+            </div>
+            <HitsPerPage
+              defaultRefinement={10}
+              items={[
+                { value: 5, label: 'Show 5 hits' },
+                { value: 10, label: 'Show 10 hits' },
+              ]}
+            />
+            {hits.length > 0 && hits[0].hits.map((hit, index) => {
               return (
                 <div className="" style={{width: '48%', float:'left', marginRight: '10px'}}>
                   <a href={`https://inspitrip.com/experiences/${hit.id}`}>
@@ -253,33 +258,6 @@ const Sidebar = () => (
     <RefinementList attribute="is_most_requested" />
   </div>
 );
-
-const Content = () => (
-  <div>
-    <div className="info">
-      <SortBy
-        defaultRefinement="inspitrip"
-        items={[
-          {value:'inspitrip', label:'Most Relevant'},
-          {value:'inspitrip_price_asc', label:'Lowest Price'},
-          {value:'inspitrip_price_dsc', label:'Highest Price'}
-        ]}
-      />
-      <Stats />
-    </div>
-    <HitsPerPage
-      defaultRefinement={10}
-      items={[
-        { value: 5, label: 'Show 5 hits' },
-        { value: 10, label: 'Show 10 hits' },
-      ]}
-    />
-    <Hits hitComponent={Experience} />
-    <div className="pagination">
-      <Pagination showLast paddings={4} />
-    </div>
-  </div>
-)
 
 const AutoComplete = connectAutoComplete(Example);
 
