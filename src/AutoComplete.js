@@ -118,13 +118,11 @@ class Example extends Component {
     // console.log(hit);
     if (hit.sortBy === 'suggestion') {
       return (
-        <Link to={`/search`}>
-          <p className="experience-name">{hit.city}</p>
-        </Link>
+        <p className="experience-name">{hit.city}</p>
       )
     }
     else {
-      return <p>12</p>;
+      return null;
     }
 
   }
@@ -228,27 +226,6 @@ class Example extends Component {
     );
   }
 }
-
-const Experience = ({hit}) => (
-  <div className="">
-    <div className="hit-image">
-      <img src={hit.background_photo} />
-    </div>
-    <div className="experience-text">
-      <div className="experience-name">
-        <Highlight attribute="title" hit={hit} className="experience-name" />
-      </div>
-      <div className="experience-location">
-        {hit.place.full_name}
-      </div>
-    </div>
-    <div className="experience-footer">
-      <div className="experience-price">
-        ${hit.price}
-      </div>
-    </div>
-  </div>
-)
 
 const Sidebar = () => (
   <div>
