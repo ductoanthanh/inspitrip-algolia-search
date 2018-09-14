@@ -14,6 +14,7 @@ import {
   connectAutoComplete,
   connectStateResults
 } from 'react-instantsearch-dom';
+import { Link } from 'react-router-dom';
 import Autosuggest from 'react-autosuggest';
 
 const theme = {
@@ -126,11 +127,6 @@ const Content = () => (
 )
 
 class Example extends Component {
-  static propTypes = {
-    // hits: PropTypes.arrayOf(PropTypes.object).isRequired,
-    // currentRefinement: PropTypes.string.isRequired,
-    // refine: PropTypes.func.isRequired,
-  };
 
   state = {
     value: this.props.currentRefinement,
@@ -155,17 +151,26 @@ class Example extends Component {
   }
 
   renderSuggestion(hit) {
-    // return <Highlight attribute="name" hit={hit} tagName="mark" />;
-    return (
-      <div>
-        <p style={{float: 'right'}}>${hit.price}</p>
-        <Highlight attribute="title" hit={hit} className="experience-name" />
-      </div>
-    )
+    if (hit.sortBy === 'suggestion') {
+      return (
+        <p className="experience-name">{hit.city}</p>
+      )
+    }
+    else {
+      return (
+        <p className="experience-name">{hit.title}</p>
+      )
+    }
   }
 
   renderSectionTitle(section) {
-    return section.index;
+    if (section.index === 'autocomplete' || section.index === 'suggestions') {
+      return ''
+    } else if (section.index === 'inspitrip') {
+      return 'Top Hits'
+    } else {
+      return section.index;
+    }
   }
 
   getSectionSuggestions(section) {
@@ -173,6 +178,7 @@ class Example extends Component {
   }
 
   render() {
+    console.log(this.props)
     const { hits } = this.props;
     const { value } = this.state;
 
@@ -202,7 +208,7 @@ class Example extends Component {
   }
 }
 
-const AutoComplete = connectAutoComplete(Example);
+const AutoCompleted = connectAutoComplete(Example);
 
 class App extends Component {
   render() {
@@ -216,14 +222,14 @@ class App extends Component {
           <header className="header center">
             <img src="https://inspitrip.imgix.net/static/assets/images/svg-icons/logo-pink.svg" />
             {/* <SearchBox translations={{ placeholder:'Search for Experience' }} /> */}
-            <AutoComplete />
+            <AutoCompleted />
             <Configure hitsPerPage={3} />
           </header>
 
           <main>
-            <div class="row">
-              <div class="col-md-3"><Sidebar /></div>
-              <div class="col-md-9"><Content /></div>
+            <div className="row">
+              <div className="col-md-3"><Sidebar /></div>
+              <div className="col-md-9"><Content /></div>
             </div>
           </main>
        </InstantSearch>

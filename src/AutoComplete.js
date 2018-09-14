@@ -4,7 +4,8 @@ import {
   InstantSearch,
   Configure,
   Highlight,
-  Hits
+  Hits,
+  Index
 } from 'react-instantsearch/dom';
 import { connectAutoComplete } from 'react-instantsearch/connectors';
 import Autosuggest from 'react-autosuggest';
@@ -14,17 +15,17 @@ const theme = {
     position: 'relative'
   },
   input: {
-    width: 240,
-    height: 30,
+    width: '100%',
+    height: 51,
     padding: '10px 20px',
     fontFamily: 'Helvetica, sans-serif',
     fontWeight: 300,
     fontSize: 16,
-    border: '1px solid #aaa',
+    border: '1px solid #c4c8d8',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
     borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
+    borderBottomRightRadius: 4
   },
   inputFocused: {
     outline: 'none'
@@ -38,9 +39,6 @@ const theme = {
   },
   suggestionsContainerOpen: {
     display: 'block',
-    position: 'absolute',
-    top: 51,
-    width: 280,
     border: '1px solid #aaa',
     backgroundColor: '#fff',
     fontFamily: 'Helvetica, sans-serif',
@@ -65,11 +63,6 @@ const theme = {
 };
 
 const App = () => (
-  // <InstantSearch
-  //   appId="latency"
-  //   apiKey="6be0576ff61c053d5f9a3225e2a90f76"
-  //   indexName="ikea"
-  // >
 
   <InstantSearch
      apiKey="897419e2352332186eb1c5b1d25d7d07"
@@ -78,6 +71,7 @@ const App = () => (
   >
     <AutoComplete />
     <Configure hitsPerPage={3} />
+    <Index indexName="suggestions" />
   </InstantSearch>
 );
 
@@ -111,7 +105,6 @@ class Example extends Component {
   }
 
   renderSuggestion(hit) {
-    // return <Highlight attribute="name" hit={hit} tagName="mark" />;
     return (
       <div>
         <a href="http://localhost:3000/">Link</a>
@@ -122,7 +115,13 @@ class Example extends Component {
   }
 
   renderSectionTitle(section) {
-    return section.index;
+    if (section.index === 'autocomplete' || section.index === 'suggestions') {
+      return ''
+    } else if (section.index === 'inspitrip') {
+      return 'Top Hits'
+    } else {
+      return section.index;
+    }
   }
 
   getSectionSuggestions(section) {
@@ -142,7 +141,7 @@ class Example extends Component {
     return (
       <Autosuggest
         suggestions={hits}
-        multiSection={false}
+        multiSection={true}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={this.getSuggestionValue}
