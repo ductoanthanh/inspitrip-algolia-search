@@ -92,12 +92,12 @@ class App extends Component {
             {/* <SearchBox translations={{ placeholder:'Search for Experience' }} /> */}
           </header>
 
-          {/* <main>
+          <main>
             <div className="row">
               <div className="col-md-3"><Sidebar /></div>
               <div className="col-md-9"><Content /></div>
             </div>
-          </main> */}
+          </main>
        </InstantSearch>
       </div>
     );

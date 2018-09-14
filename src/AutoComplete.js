@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   InstantSearch,
-  Configure,
+  SearchBox,
+  Hits,
+  HitsPerPage,
   Highlight,
+  Stats,
+  SortBy,
+  Pagination,
+  RefinementList,
+  Configure,
   Index,
-  Hits
+  connectStateResults
 } from 'react-instantsearch/dom';
 import { connectAutoComplete } from 'react-instantsearch/connectors';
 import Autosuggest from 'react-autosuggest';
@@ -70,7 +77,7 @@ const App = () => (
      indexName="suggestions"
   >
     <AutoComplete />
-    <Configure hitsPerPage={3} />
+    <Configure hitsPerPage={5} />
     <Index indexName="inspitrip" />
   </InstantSearch>
 );
@@ -114,19 +121,17 @@ class Example extends Component {
   }
 
   renderSuggestion(hit) {
-    console.log(hit);
+    // console.log(hit);
     if (hit.sortBy === 'suggestion') {
       return (
-        <Link to={`/`}>
-          {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
+        <Link to={`/search`}>
           <p className="experience-name">{hit.city}</p>
         </Link>
       )
     }
     else {
       return (
-        <Link to='/'>
-          {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
+        <Link to='/search'>
           <p className="experience-name">{hit.title}</p>
         </Link>
       )
@@ -160,23 +165,121 @@ class Example extends Component {
     };
 
     return (
-      <Autosuggest
-        suggestions={hits}
-        multiSection={true}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={inputProps}
-        renderSectionTitle={this.renderSectionTitle}
-        getSectionSuggestions={this.getSectionSuggestions}
-        theme={theme}
-        // just for development
-        alwaysRenderSuggestions={false}
-      />
+      <div className="App">
+      <header className="header center">
+        <img src="https://inspitrip.imgix.net/static/assets/images/svg-icons/logo-pink.svg" />
+        <div className="auto-complete">
+          <h1>Auto Complete Search</h1>
+          <Autosuggest
+            suggestions={hits}
+            multiSection={true}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={this.getSuggestionValue}
+            renderSuggestion={this.renderSuggestion}
+            inputProps={inputProps}
+            renderSectionTitle={this.renderSectionTitle}
+            getSectionSuggestions={this.getSectionSuggestions}
+            theme={theme}
+            // just for development
+            alwaysRenderSuggestions={false}
+          />
+        </div>
+        {/* <SearchBox translations={{ placeholder:'Search for Experience' }} /> */}
+      </header>
+      <main>
+        <div className="row">
+          <div className="col-md-3"><Sidebar /></div>
+          <div className="col-md-9">
+            {hits.length > 1 && hits[1].hits.map((hit, index) => {
+              return (
+                <div className="" style={{width: '48%', float:'left', marginRight: '10px'}}>
+                  <a href={`https://inspitrip.com/experiences/${hit.id}`}>
+                    <div className="hit-image">
+                      <img src={hit.background_photo} />
+                    </div>
+                    <div className="experience-text">
+                      <div className="experience-name">
+                        {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
+                        {hit.title}
+                      </div>
+                      <div className="experience-location">
+                        {hit.place.full_name}
+                      </div>
+                    </div>
+                    <div className="experience-footer">
+                      <div className="experience-price">
+                        ${hit.price}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </main>
+    </div>
     );
   }
 }
+
+const Experience = ({hit}) => (
+  <div className="">
+    <div className="hit-image">
+      <img src={hit.background_photo} />
+    </div>
+    <div className="experience-text">
+      <div className="experience-name">
+        <Highlight attribute="title" hit={hit} className="experience-name" />
+      </div>
+      <div className="experience-location">
+        {hit.place.full_name}
+      </div>
+    </div>
+    <div className="experience-footer">
+      <div className="experience-price">
+        ${hit.price}
+      </div>
+    </div>
+  </div>
+)
+
+const Sidebar = () => (
+  <div>
+    <h5>Is Instant Booking</h5>
+    <RefinementList attribute="is_instant_booking" />
+    <h5>Is Most Requested</h5>
+    <RefinementList attribute="is_most_requested" />
+  </div>
+);
+
+const Content = () => (
+  <div>
+    <div className="info">
+      <SortBy
+        defaultRefinement="inspitrip"
+        items={[
+          {value:'inspitrip', label:'Most Relevant'},
+          {value:'inspitrip_price_asc', label:'Lowest Price'},
+          {value:'inspitrip_price_dsc', label:'Highest Price'}
+        ]}
+      />
+      <Stats />
+    </div>
+    <HitsPerPage
+      defaultRefinement={10}
+      items={[
+        { value: 5, label: 'Show 5 hits' },
+        { value: 10, label: 'Show 10 hits' },
+      ]}
+    />
+    <Hits hitComponent={Experience} />
+    <div className="pagination">
+      <Pagination showLast paddings={4} />
+    </div>
+  </div>
+)
 
 const AutoComplete = connectAutoComplete(Example);
 
