@@ -13,8 +13,7 @@ const AppRouter = () => (
       <Router>
         <div className="container">
           <Switch>
-            <Route exact path="/" component={App} />
-            <Route path="/search" component={AutoComplete} />
+            <Route exact path="/" component={AutoComplete} />
           </Switch>
         </div>
       </Router>

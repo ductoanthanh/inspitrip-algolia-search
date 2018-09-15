@@ -2,10 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   InstantSearch,
-  Configure,
+  SearchBox,
+  Hits,
+  HitsPerPage,
   Highlight,
+  Stats,
+  SortBy,
+  Pagination,
+  RefinementList,
+  Configure,
   Index,
-  Hits
+  connectStateResults
 } from 'react-instantsearch/dom';
 import { connectAutoComplete } from 'react-instantsearch/connectors';
 import Autosuggest from 'react-autosuggest';
@@ -67,11 +74,11 @@ const App = () => (
   <InstantSearch
      apiKey="897419e2352332186eb1c5b1d25d7d07"
      appId="TYH3T0DOFV"
-     indexName="suggestions"
+     indexName="inspitrip"
   >
     <AutoComplete />
-    <Configure hitsPerPage={3} />
-    <Index indexName="inspitrip" />
+    <Configure hitsPerPage={10} />
+    <Index indexName="suggestions" />
   </InstantSearch>
 );
 
@@ -92,12 +99,6 @@ class Example extends Component {
     });
   };
 
-  onKeyPress = (event) => {
-    if(event.key === 'Enter') {
-      const hits = this.props.hits;
-    }
-  }
-
   onSuggestionsFetchRequested = ({ value }) => {
     this.props.refine(value);
   };
@@ -110,26 +111,18 @@ class Example extends Component {
     if (hit.sortBy === 'suggestion') {
       return hit.city;
     }
-    return hit.title;
+    return null;
   }
 
   renderSuggestion(hit) {
-    console.log(hit);
+    // console.log(hit);
     if (hit.sortBy === 'suggestion') {
       return (
-        <Link to={`/`}>
-          {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
-          <p className="experience-name">{hit.city}</p>
-        </Link>
+        <p className="experience-name">{hit.city}</p>
       )
     }
     else {
-      return (
-        <Link to='/'>
-          {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
-          <p className="experience-name">{hit.title}</p>
-        </Link>
-      )
+      return null;
     }
 
   }
@@ -137,10 +130,8 @@ class Example extends Component {
   renderSectionTitle(section) {
     if (section.index === 'autocomplete' || section.index === 'suggestions') {
       return ''
-    } else if (section.index === 'inspitrip') {
-      return 'Top Hits'
     } else {
-      return section.index;
+      return null;
     }
   }
 
@@ -155,28 +146,95 @@ class Example extends Component {
     const inputProps = {
       placeholder: 'Search an experience...',
       onChange: this.onChange,
-      onKeyPress: this.onKeyPress,
       value,
     };
 
     return (
-      <Autosuggest
-        suggestions={hits}
-        multiSection={true}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={inputProps}
-        renderSectionTitle={this.renderSectionTitle}
-        getSectionSuggestions={this.getSectionSuggestions}
-        theme={theme}
-        // just for development
-        alwaysRenderSuggestions={false}
-      />
+      <div className="App">
+      <header className="header center">
+        <img src="https://inspitrip.imgix.net/static/assets/images/svg-icons/logo-pink.svg" />
+        <div className="auto-complete">
+          <h1>Auto Complete Search</h1>
+          <Autosuggest
+            suggestions={hits}
+            multiSection={true}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={this.getSuggestionValue}
+            renderSuggestion={this.renderSuggestion}
+            inputProps={inputProps}
+            renderSectionTitle={this.renderSectionTitle}
+            getSectionSuggestions={this.getSectionSuggestions}
+            theme={theme}
+            // just for development
+            alwaysRenderSuggestions={false}
+          />
+        </div>
+        {/* <SearchBox translations={{ placeholder:'Search for Experience' }} /> */}
+      </header>
+      <main>
+        <div className="row">
+          <div className="col-md-3"><Sidebar /></div>
+          <div className="col-md-9">
+            <div className="info">
+              <SortBy
+                defaultRefinement="inspitrip"
+                items={[
+                  {value:'inspitrip', label:'Most Relevant'},
+                  {value:'inspitrip_price_asc', label:'Lowest Price'},
+                  {value:'inspitrip_price_dsc', label:'Highest Price'}
+                ]}
+              />
+              <Stats />
+            </div>
+            <HitsPerPage
+              defaultRefinement={10}
+              items={[
+                { value: 5, label: 'Show 5 hits' },
+                { value: 10, label: 'Show 10 hits' },
+              ]}
+            />
+            {hits.length > 0 && hits[0].hits.map((hit, index) => {
+              return (
+                <div className="" style={{width: '48%', float:'left', marginRight: '10px'}}>
+                  <a href={`https://inspitrip.com/experiences/${hit.id}`}>
+                    <div className="hit-image">
+                      <img src={hit.background_photo} />
+                    </div>
+                    <div className="experience-text">
+                      <div className="experience-name">
+                        {/* <Highlight attribute="title" hit={hit} className="experience-name" /> */}
+                        {hit.title}
+                      </div>
+                      <div className="experience-location">
+                        {hit.place.full_name}
+                      </div>
+                    </div>
+                    <div className="experience-footer">
+                      <div className="experience-price">
+                        ${hit.price}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </main>
+    </div>
     );
   }
 }
+
+const Sidebar = () => (
+  <div>
+    <h5>Is Instant Booking</h5>
+    <RefinementList attribute="is_instant_booking" />
+    <h5>Is Most Requested</h5>
+    <RefinementList attribute="is_most_requested" />
+  </div>
+);
 
 const AutoComplete = connectAutoComplete(Example);
 

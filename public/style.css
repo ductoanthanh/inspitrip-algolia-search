@@ -66,6 +66,7 @@ header img {
 
 .experience-name {
     font-weight: bold;
+    font-size: 90%;
 }
 
 .experience-text,
@@ -254,4 +255,8 @@ h5 {
 
 #react-autowhatever-1 ul {
   text-align: left;
+}
+
+#react-autowhatever-1 div:first-child {
+  display: none;
 }
